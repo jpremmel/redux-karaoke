@@ -7,7 +7,14 @@ const initialState = {
   arrayPosition: 0
 }
 
-console.log(initialState);
+//REDUCER WILL GO HERE
+
+//JEST TESTS & SETUP WILL GO HERE
+
+//REDUX STORE
+const { createStore } = Redux; //imports the createStore() method from the Redux library
+const store = createStore(reducer);
+console.log(store.getState());
 
 // CLICK LISTENER
 const userClick = () => {
