@@ -7,9 +7,31 @@ const initialState = {
   arrayPosition: 0
 }
 
-//REDUCER WILL GO HERE
+//REDUX REDUCER
+//pass initialState as the default parameter to reducer in order to set the store's state to initialState when running createStore()
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'NEXT_LYRIC':
+      let newArrayPosition = state.arrayPosition + 1;
+      let newState = {
+        songLyricsArray: state.songLyricsArray,
+        arrayPosition: newArrayPosition
+      }
+      return newState;
+    default:
+      return state;
+  }
+}
 
-//JEST TESTS & SETUP WILL GO HERE
+//JEST TESTS & SETUP
+const { expect } = window;
+
+expect(reducer(initialState, { type: null })).toEqual(initialState);
+
+expect(reducer(initialState, { type: 'NEXT_LYRIC'})).toEqual({
+  songLyricsArray: songLyricsArray,
+  arrayPosition: 1
+});
 
 //REDUX STORE
 const { createStore } = Redux; //imports the createStore() method from the Redux library
