@@ -36,9 +36,28 @@ expect(reducer(initialState, { type: 'NEXT_LYRIC'})).toEqual({
 //REDUX STORE
 const { createStore } = Redux; //imports the createStore() method from the Redux library
 const store = createStore(reducer);
-console.log(store.getState());
+
+//RENDERING STATE IN DOM
+const renderLyrics = () => {
+  const lyricsDisplay = document.getElementById('lyrics');
+  while (lyricsDisplay.firstChild) {
+    lyricsDisplay.removeChild(lyricsDisplay.firstChild);
+  }
+  const currentLine = store.getState().songLyricsArray[store.getState().arrayPosition];
+  const renderedLine = document.createTextNode(currentLine);
+  document.getElementById('lyrics').appendChild(renderedLine);
+}
+
+// window.onload is HTML5 version of jQuery's $(document).ready()
+window.onload = function() {
+  renderLyrics();
+}
 
 // CLICK LISTENER
 const userClick = () => {
-  console.log('click');
+  store.dispatch({ type: 'NEXT_LYRIC' });
 }
+
+//SUBSCRIBE TO REDUX STORE
+//subscribe() is a callback that's automatically invoked whenever the Redux store is updated
+store.subscribe(renderLyrics);
