@@ -10,13 +10,17 @@ const initialState = {
 //REDUX REDUCER
 //pass initialState as the default parameter to reducer in order to set the store's state to initialState when running createStore()
 const reducer = (state = initialState, action) => {
+  let newState;
   switch (action.type) {
     case 'NEXT_LYRIC':
       let newArrayPosition = state.arrayPosition + 1;
-      let newState = {
+      newState = {
         songLyricsArray: state.songLyricsArray,
         arrayPosition: newArrayPosition
       }
+      return newState;
+    case 'RESTART_SONG':
+      newState = initialState;
       return newState;
     default:
       return state;
@@ -32,6 +36,13 @@ expect(reducer(initialState, { type: 'NEXT_LYRIC'})).toEqual({
   songLyricsArray: songLyricsArray,
   arrayPosition: 1
 });
+
+expect(reducer({
+    songLyricsArray: songLyricsArray,
+    arrayPosition: 1
+  },
+  { type: 'RESTART_SONG' })
+).toEqual(initialState);
 
 //REDUX STORE
 const { createStore } = Redux; //imports the createStore() method from the Redux library
@@ -55,7 +66,11 @@ window.onload = function() {
 
 // CLICK LISTENER
 const userClick = () => {
-  store.dispatch({ type: 'NEXT_LYRIC' });
+  if (store.getState().arrayPosition === store.getState().songLyricsArray.length - 1) {
+    store.dispatch({ type: 'RESTART_SONG' });
+  } else {
+    store.dispatch({ type: 'NEXT_LYRIC' });
+  }
 }
 
 //SUBSCRIBE TO REDUX STORE
