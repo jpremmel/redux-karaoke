@@ -87,7 +87,7 @@ expect(lyricChangeReducer(initialState.songsById, { type: 'NEXT_LYRIC', currentS
   }
 });
 
-expect(lyricChangeReducer(initialState.songById, { type: 'RESTART_SONG', currentSongId: 1 })).toEqual({
+expect(lyricChangeReducer(initialState.songsById, { type: 'RESTART_SONG', currentSongId: 1 })).toEqual({
   1: {
     title: "Bye Bye Bye",
     artist: "N'Sync",
