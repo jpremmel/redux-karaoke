@@ -25,7 +25,7 @@ const initialState = {
   }
 };
 
-//REDUX REDUCER
+//REDUX REDUCERS
 //pass initialState as the default parameter to reducer in order to set the store's state to initialState when running createStore()
 //provide only the slice of state that this reducer is responsible for
 const lyricChangeReducer = (state = initialState.songsById, action) => {
@@ -50,6 +50,16 @@ const lyricChangeReducer = (state = initialState.songsById, action) => {
         [action.currentSongId]: newSongsByIdEntry
       });
       return newSongsByIdStateSlice;
+    default:
+      return state;
+  }
+}
+
+//pass initialState.currentSongId as the default state argument to songChangeReducer because this is the slice of state this reducer is responsible for
+const songChangeReducer = (state = initialState.currentSongId, action) => {
+  switch (action.type) {
+    case 'CHANGE_SONG':
+      return action.newSelectedSongId
     default:
       return state;
   }
@@ -93,6 +103,11 @@ expect(lyricChangeReducer(initialState.songById, { type: 'RESTART_SONG', current
     arrayPosition: 0,
   }
 });
+
+expect(songChangeReducer(initialState, { type: null })).toEqual(initialState);
+
+//Here we're stating that if songChangeReducer receives a CHANGE_SONG action with a newSelectedSongId value of 1, the currentSongId state slice should also equal 1; meaning currentSongId state was successfully updated to contain the ID of the user-selected song:
+expect(songChangeReducer(initialState.currentSongId, { type: 'CHANGE_SONG', newSelectedSongId: 1})).toEqual(1);
 
 //REDUX STORE
 const { createStore } = Redux; //imports the createStore() method from the Redux library
